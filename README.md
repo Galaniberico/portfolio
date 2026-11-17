@@ -1,5 +1,9 @@
 # Alejandro Galán · Portfolio
 
+Web: https://galaniberico.github.io/portfolio/
+
+Repositorio: https://github.com/Galaniberico/portfolio
+
 Primera versión oscura, estática y adaptable a móvil. No hay framework, dependencias npm, analítica ni cookies. Las fuentes de Google son opcionales: la web utiliza fuentes del sistema si no están disponibles.
 
 ## Ver en local
@@ -21,21 +25,21 @@ npm run build
 
 dist/ contiene únicamente los archivos públicos. Todas las rutas son relativas: funciona también en usuario.github.io/portfolio/.
 
-## Publicar por primera vez (solo cuando lo hayas revisado)
+## Publicar cambios
 
-Instala Git y GitHub CLI (https://cli.github.com/). Git ya está presente en el equipo; GitHub CLI no estaba instalado al crear esta versión. No necesitas instalar just: npm ofrece los mismos comandos.
+La carpeta ya está vinculada a Galaniberico/portfolio, rama main, y GitHub Pages utiliza GitHub Actions. Después de revisar en local:
 
 ~~~powershell
-gh auth login
-npm run setup -- TU_USUARIO/portfolio
 npm run deploy
 ~~~
 
-setup crea un repositorio PÚBLICO nuevo y configura origin; no publica la página. Usa un nombre nuevo de repositorio. deploy comprueba los archivos, construye, guarda los cambios del proyecto en un commit, sube main, habilita Pages con GitHub Actions y solicita el workflow. Si Git pide identidad, configura user.name y user.email para este repositorio. El comando informa de la solicitud; la publicación termina cuando el job Deploy de Actions aparece en verde. Su salida muestra la URL final.
+También funciona just deploy si tienes just instalado. No necesitas GitHub CLI para desplegar: el comando comprueba, construye, guarda los cambios del proyecto en un commit y hace git push. GitHub Actions publica cada nuevo commit de main. Guardar archivos o ejecutar la vista local no publica nada. Si no hay commits nuevos, conserva la publicación actual.
 
-Para cambios posteriores basta con revisar en local y ejecutar npm run deploy. Si tienes just instalado, just dev y just deploy son equivalentes. No hay despliegues por cada guardado ni cada push: el workflow solo se ejecuta de forma manual o mediante deploy.
+Git puede pedir iniciar sesión en GitHub la primera vez que subas cambios desde el equipo. Si solicita identidad para crear un commit, configura user.name y user.email para este repositorio. No se almacenan tokens en los archivos del proyecto.
 
-Alternativa sin GitHub CLI: crea el repositorio en GitHub, sube estos archivos, selecciona Settings → Pages → Source: GitHub Actions y ejecuta Actions → Deploy portfolio → Run workflow. El workflow sigue la documentación oficial de Pages: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
+El comando confirma el envío; la web se considera publicada cuando el job Deploy aparece en verde: https://github.com/Galaniberico/portfolio/actions. También puedes lanzar Deploy portfolio con Run workflow desde Actions. Para configurar una copia completamente nueva del proyecto, npm run setup -- usuario/repositorio conserva el asistente opcional basado en GitHub CLI.
+
+Referencia: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
 
 ## Contenido
 
@@ -44,7 +48,7 @@ Alternativa sin GitHub CLI: crea el repositorio en GitHub, sube estos archivos, 
 - src/app.js: plugins interactivos y recorrido ilustrativo de accesos.
 - src/assets/: favicon y CV principal ES/EN.
 
-No se han publicado ni creado repositorios durante la preparación. El código del sistema de accesos permanece fuera del proyecto. La representación del móvil es conceptual, no una captura de la aplicación real. El recorrido simula una secuencia; no autentica ni abre una puerta.
+El código del sistema de accesos permanece fuera del proyecto. El recorrido simula una secuencia; no autentica ni abre una puerta.
 
 La cifra de ModuleDroid compara caracteres (sin XML) en una pantalla de una sola app: 3.026 frente a 555, redondeado a −81,7 %. No describe toda la app ni rendimiento. Los más de cien usuarios del sistema de accesos proceden de la confirmación personal del autor. Los enlaces a repositorios proceden de la documentación aportada; su disponibilidad debe revisarse antes de publicar.
 
