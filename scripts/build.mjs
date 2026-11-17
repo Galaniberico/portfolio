@@ -1,0 +1,2 @@
+import {cp,mkdir,rm,writeFile} from 'node:fs/promises';
+const dist=new URL('../dist/',import.meta.url);await rm(dist,{recursive:true,force:true});await mkdir(dist,{recursive:true});await cp(new URL('../src/',import.meta.url),dist,{recursive:true});await writeFile(new URL('.nojekyll',dist),'');console.log('Build listo: dist/');

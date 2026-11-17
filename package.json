@@ -1,0 +1,14 @@
+{
+  "name": "alejandro-galan-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/preview.mjs",
+    "build": "node scripts/localize.mjs && node scripts/build.mjs",
+    "check": "node scripts/localize.mjs && node scripts/check.mjs",
+    "setup": "node scripts/publish.mjs setup",
+    "deploy": "node scripts/publish.mjs deploy",
+    "localize": "node scripts/localize.mjs"
+  }
+}
