@@ -58,5 +58,6 @@ La entrada principal index.html está en inglés. El selector EN/ES de la cabece
 
 ModuleDroid muestra tres comparaciones de Kotlin, con el código convencional en gris y el código con plugin en la paleta de cada pestaña. Son fragmentos adaptados para explicar el uso; omiten imports, la clase Activity y la inicialización. Las llamadas Navigate.toReturn/getResult, Configurator.set/get y @Restore se contrastaron con los repositorios públicos del autor. El ejemplo Restorer se limita a recreación por rotación; no atribuye persistencia tras muerte del proceso.
 
-El diagrama de accesos separa apps, lector, controladora/caché, puerta, servidor, base de datos y panel web. Sus seis pasos pueden reproducirse, pausarse o recorrerse manualmente. La sincronización de registros y permisos se presenta separada de la apertura local, sin atribuir latencias ni conexión real a hardware. En móvil, el esquema se puede desplazar horizontalmente.
+El diagrama de accesos separa apps, lector, controladora/caché, puerta, servidor, base de datos y panel web. Sus seis pasos pueden reproducirse, pausarse o recorrerse manualmente. La sincronización de registros y permisos se presenta separada de la apertura local, sin atribuir latencias ni conexión real a hardware. En móvil, el esquema se presenta como un recorrido vertical con el backend desplegable; la comparación de código permite elegir plugin y alternar entre antes/después. La presentación personal y la formación aparecen antes de los proyectos. La cabecera ofrece lectura y descarga del CV del idioma activo.
+
 
