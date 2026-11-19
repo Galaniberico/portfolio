@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head><link rel="alternate" hreflang="en" href="./catan.html"><link rel="alternate" hreflang="es" href="./catan-es.html"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#22383c"><meta name="description" content="Alejandro Galán Pérez. Software engineer building mobile apps, developer tools and connected systems."><title>Catan Map Generator</title><link rel="icon" href="./assets/favicon.svg" type="image/svg+xml"><script src="./theme.js"></script><link rel="stylesheet" href="./styles.css"><script src="./app.js" defer></script><script src="./interactions.js" defer></script><link rel="stylesheet" href="./refinements.css"></head>
+<body id="inicio"><a class="skip" href="#main">Skip to content</a>
+<header class="header-shell">
+  <div class="header wrap">
+    <a class="brand" href="./index.html">Alejandro Galán Pérez</a>
+    <nav aria-label="Main navigation" class="main-nav">
+      <a class="nav-experience" data-nav-section="experiencia" href="./experiencia.html">Experience</a>
+      <a data-nav-section="catan" aria-current="page" href="./catan.html">Catán</a>
+      <a data-nav-section="accesos" href="./accesos.html">Access control</a>
+      <a data-nav-section="moduledroid" href="./moduledroid.html">ModuleDroid</a>
+      <a data-nav-section="contacto" class="nav-contact" href="./index.html#contacto">Contact</a>
+      <div class="header-tools">
+        <button class="site-theme-toggle" type="button" data-site-theme-toggle aria-label="Portfolio light theme" title="Portfolio light theme" aria-pressed="false" hidden>
+          <span class="site-theme-sun" aria-hidden="true">☀</span>
+          <span class="site-theme-moon" aria-hidden="true">☾</span>
+        </button>
+        <div class="language-switch" role="group" aria-label="Language">
+          <a href="./catan.html" lang="en" hreflang="en" data-language="en" aria-current="page">EN</a>
+          <a href="./catan-es.html" lang="es" hreflang="es" data-language="es">ES</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+  <main class="wrap project-page" id="main">
+    <a class="back-link" href="./index.html#catan">All projects</a>
+    <div class="project-page-title">
+      <h1>Catan Map Generator</h1>
+      <p>I built an app that speeds up board setup and lets players decide how to distribute terrain and numbers before the game begins.</p>
+    </div>
+    <div class="catan-detail">
+      <div class="catan-details-copy">
+        <h2>Setting up a game</h2>
+        <p>The generator supports the 19-tile base board and a 30-tile expansion. For example, players can keep matching terrain tiles apart or prevent neighbouring tiles from getting numbers with the same odds.</p>
+        <p>Players can generate the terrain and reveal the numbers afterwards, so they can set up the physical board in stages.</p>
+        <h2>How I built it</h2>
+        <p>I built the Android app in Kotlin, drew the grid with Canvas and wrote a generator that searches for layouts that match the chosen rules. I reused two ModuleDroid plugins for settings and for restoring the board when the screen is recreated.</p>
+        <a class="case-link" href="./moduledroid.html">View ModuleDroid</a>
+      </div>
+      <div class="board-stage"><figure class="board-demo" data-board-demo>
+  <div class="board-phone">
+    <div class="board-top">
+      <button type="button" data-board-action="theme" aria-label="Switch theme" aria-pressed="false"><span aria-hidden="true">☀</span></button>
+      <strong>CATAN</strong>
+      <button type="button" data-board-action="size" aria-label="Switch to expanded board" aria-pressed="false"><img class="board-size-icon" src="./assets/catan-single.svg" width="18" height="18" alt=""></button>
+    </div>
+    <div class="board-picture">
+      <img data-board-image src="./assets/catan-tablero-oscuro.png" width="540" height="1090" alt="Base board with the numbers revealed">
+      <div class="extended-tiles" aria-hidden="true" hidden></div>
+    </div>
+    <div class="board-bottom" data-board-controls>
+      <button type="button" class="board-reveal" data-board-action="numbers" hidden>Show numbers</button>
+      <div class="board-toolbar">
+        <button type="button" data-board-action="generate" aria-label="Generate terrain"><span aria-hidden="true">⟳</span></button>
+        <button type="button" data-board-action="settings" aria-label="Show generation rules" aria-controls="board-rules" aria-expanded="false"><span aria-hidden="true">⚙</span></button>
+      </div>
+    </div>
+    <div class="board-rules" id="board-rules" hidden>
+      <div class="board-rules-title">
+        <h4>App settings</h4>
+        <button type="button" data-board-action="close" aria-label="Close rules"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="board-rules-body" role="region" aria-label="Generation rules" tabindex="0">
+        <h5>Terrain rules</h5>
+        <dl>
+          <dt>Keep matching terrain tiles apart</dt>
+          <dd>Keep tiles of the same type apart, such as two forests.</dd>
+          <dt>Keep terrain away from matching ports</dt>
+          <dd>For example, keep a forest from bordering a wood port.</dd>
+        </dl>
+        <h5>Number rules</h5>
+        <dl>
+          <dt>Keep numbers with equal odds apart</dt>
+          <dd>Keep neighbouring tiles from getting numbers with the same odds on the dice.</dd>
+          <dt>Keep 2 and 12 off ore and clay tiles</dt>
+          <dd>Exclude the least likely numbers from ore and clay tiles.</dd>
+          <dt>Avoid repeated odds within a resource</dt>
+          <dd>For example, keep two forests from having the same chance of producing wood.</dd>
+          <dt>Balance the odds across resources</dt>
+          <dd>Aim for similar average production odds across wood, wheat, sheep, ore and clay.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <figcaption>
+    <span data-board-status role="status">Base board with the numbers revealed</span>
+    <span class="demo-hint" data-demo-hint>Try the controls on the phone.</span>
+    <span class="board-demo-note">Visual demo with sample boards.</span>
+  </figcaption>
+</figure></div>
+    </div>
+  <nav class="project-navigation" aria-label="Projects"><a class="button" href="./index.html#proyectos">All projects</a><a class="next-project" href="./accesos.html"><span>Next project</span><strong>Mobile access control</strong></a></nav></main><footer class="footer wrap"><span>Alejandro Galán Pérez · <span id="current-year">2026</span></span><a href="#inicio">Back to top</a></footer>
+</body></html>
+

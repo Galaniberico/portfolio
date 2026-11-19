@@ -1,0 +1,51 @@
+<figure class="board-demo" data-board-demo>
+  <div class="board-phone">
+    <div class="board-top">
+      <button type="button" data-board-action="theme" aria-label="Cambiar tema" aria-pressed="false"><span aria-hidden="true">☀</span></button>
+      <strong>CATAN</strong>
+      <button type="button" data-board-action="size" aria-label="Cambiar a tablero ampliado" aria-pressed="false"><img class="board-size-icon" src="./assets/catan-single.svg" width="18" height="18" alt=""></button>
+    </div>
+    <div class="board-picture">
+      <img data-board-image src="./assets/catan-tablero-oscuro.png" width="540" height="1090" alt="Tablero base con los números revelados">
+      <div class="extended-tiles" aria-hidden="true" hidden></div>
+    </div>
+    <div class="board-bottom" data-board-controls>
+      <button type="button" class="board-reveal" data-board-action="numbers" hidden>Mostrar números</button>
+      <div class="board-toolbar">
+        <button type="button" data-board-action="generate" aria-label="Generar terrenos"><span aria-hidden="true">⟳</span></button>
+        <button type="button" data-board-action="settings" aria-label="Ver reglas de generación" aria-controls="board-rules" aria-expanded="false"><span aria-hidden="true">⚙</span></button>
+      </div>
+    </div>
+    <div class="board-rules" id="board-rules" hidden>
+      <div class="board-rules-title">
+        <h4>Ajustes de la app</h4>
+        <button type="button" data-board-action="close" aria-label="Cerrar reglas"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="board-rules-body" role="region" aria-label="Reglas de generación" tabindex="0">
+        <h5>Terrenos</h5>
+        <dl>
+          <dt>Separar terrenos iguales</dt>
+          <dd>Evita que dos terrenos del mismo tipo queden juntos, por ejemplo, dos bosques.</dd>
+          <dt>Separar terrenos y puertos del mismo recurso</dt>
+          <dd>Evita, por ejemplo, que un bosque toque un puerto de madera.</dd>
+        </dl>
+        <h5>Fichas numéricas</h5>
+        <dl>
+          <dt>Separar fichas con la misma probabilidad</dt>
+          <dd>Evita que dos terrenos vecinos tengan números con la misma probabilidad de salir en los dados.</dd>
+          <dt>Evitar el 2 y el 12 en piedra y arcilla</dt>
+          <dd>Excluye los números menos probables de las casillas de piedra y arcilla.</dd>
+          <dt>No repetir probabilidades dentro de un recurso</dt>
+          <dd>Evita, por ejemplo, que dos bosques tengan la misma probabilidad de producir.</dd>
+          <dt>Equilibrar las probabilidades entre recursos</dt>
+          <dd>Busca que la probabilidad media de producir sea parecida para madera, trigo, ovejas, piedra y arcilla.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <figcaption>
+    <span data-board-status role="status">Tablero base con los números revelados</span>
+    <span class="demo-hint" data-demo-hint>Prueba los controles del móvil.</span>
+    <span class="board-demo-note">Demo visual con tableros de ejemplo.</span>
+  </figcaption>
+</figure>

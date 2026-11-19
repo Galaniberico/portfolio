@@ -1,61 +1,6 @@
 const en=document.documentElement.lang==='en';
 const text=(es,enText)=>en?enText:es;
-const plugins={
- navigator:{title:text('Recibir el resultado de otra pantalla.','Receive a result from another screen.'),before:
-`private val editor = registerForActivityResult(
-    ActivityResultContracts.StartActivityForResult()
-) { result ->
-    if (result.resultCode == RESULT_OK) {
-        val name = result.data?.getStringExtra("name")
-        if (name != null) showName(name)
-    }
-}
-
-fun openEditor() {
-    editor.launch(Intent(this, EditActivity::class.java))
-}`,after:
-`Navigate.toReturn(EditActivity::class).andThen {
-    val name = Navigate.getResult<String>("name")
-    if (name != null) showName(name)
-}`,beforeCaption:text('Registrar el launcher, lanzar el Intent y extraer el resultado.','Register the launcher, launch the Intent and extract the result.'),afterCaption:text('Abrir la pantalla y definir qué hacer al volver.','Open the screen and define what happens on return.'),copy:text('El ejemplo muestra el lado que recibe el resultado; se omite la pantalla de edición en ambos casos. Navigator encapsula la mecánica de navegación y retorno en una llamada encadenada.','This example shows the caller; the editing screen is omitted in both versions. Navigator encapsulates navigation and result handling in a chained call.')},
- configurator:{title:text('Guardar y leer una preferencia.','Save and read a preference.'),before:
-`val preferences = getSharedPreferences(
-    "settings", Context.MODE_PRIVATE
-)
-preferences.edit()
-    .putBoolean("notifications", true)
-    .apply()
-
-val enabled = preferences.getBoolean(
-    "notifications", false
-)`,after:
-`Configurator.set("notifications", true)
-
-val enabled = Configurator.get(
-    "notifications", false
-)`,beforeCaption:text('Acceder al almacén y gestionar su editor.','Access the preference store and manage its editor.'),afterCaption:text('Leer y escribir desde una fachada tipada.','Read and write through a typed facade.'),copy:text('Encapsula SharedPreferences y su editor. El plugin también permite suscribirse a cambios y generar una pantalla de configuración.','Encapsulates SharedPreferences and its editor. The plugin also supports change subscriptions and a generated settings screen.')},
- restorer:{title:text('Conservar un contador al rotar la pantalla.','Keep a counter when the screen rotates.'),before:
-`var count = 0
-
-override fun onCreate(state: Bundle?) {
-    super.onCreate(state)
-    count = state?.getInt("count") ?: 0
-}
-
-override fun onSaveInstanceState(out: Bundle) {
-    out.putInt("count", count)
-    super.onSaveInstanceState(out)
-}`,after:
-`@Restore
-var count = 0`,beforeCaption:text('Guardar y recuperar el campo en los callbacks.','Save and retrieve the field in lifecycle callbacks.'),afterCaption:text('Declarar qué campo debe conservar su valor.','Declare which field should keep its value.'),copy:text('El plugin conecta el guardado y la restauración al ciclo de vida mediante anotaciones. Este ejemplo se limita a recreaciones como la rotación; no demuestra equivalencia con Bundle tras la muerte del proceso.','The plugin connects saving and restoration to the lifecycle through annotations. This example is limited to recreation such as rotation; it does not establish equivalence with Bundle after process death.')}
-};
-const tabs=[...document.querySelectorAll('[role="tab"][data-plugin]')];
-const escapeHtml=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-function highlight(code){const pattern=/(\/\/[^\n]*|"[^"\n]*"|@\w+|\b(?:val|var|fun|override|true|false|super)\b|\b(?:Navigate|Configurator|String|Int|Bundle|Intent|Context)\b)/g;let last=0;let output='';for(const match of code.matchAll(pattern)){output+=escapeHtml(code.slice(last,match.index));const token=match[0];const kind=token.startsWith('//')?'comment':token.startsWith('"')?'string':token.startsWith('@')?'annotation':/^[A-Z]/.test(token)?'type':'keyword';output+='<span class="token-'+kind+'">'+escapeHtml(token)+'</span>';last=match.index+token.length}return output+escapeHtml(code.slice(last))}
-function selectTab(tab){const key=tab.dataset.plugin;const p=plugins[key];document.querySelector('#plugin-select').value=key;tabs.forEach(t=>{const active=t===tab;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1});document.querySelector('.code-demo').dataset.plugin=key;document.querySelector('#plugin-panel').setAttribute('aria-labelledby',tab.id);document.querySelector('#plugin-title').textContent=p.title;document.querySelector('#before-label').textContent=text('Sin el plugin','Without the plugin');document.querySelector('#after-label').textContent=text('Con ','With ')+tab.textContent;document.querySelector('#code-before').textContent=p.before;document.querySelector('#code-after').innerHTML=highlight(p.after);document.querySelector('#before-caption').textContent=p.beforeCaption;document.querySelector('#after-caption').textContent=p.afterCaption;document.querySelector('#plugin-copy').textContent=p.copy;document.querySelector('#code-source').href='https://github.com/agp221-ua/'+tab.textContent}
-tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>selectTab(tab));tab.addEventListener('keydown',e=>{let next;if(e.key==='ArrowRight')next=(i+1)%tabs.length;if(e.key==='ArrowLeft')next=(i-1+tabs.length)%tabs.length;if(e.key==='Home')next=0;if(e.key==='End')next=tabs.length-1;if(next!==undefined){e.preventDefault();selectTab(tabs[next]);tabs[next].focus()}})});selectTab(tabs[0]);
-document.querySelector('#plugin-select').addEventListener('change',e=>selectTab(tabs.find(t=>t.dataset.plugin===e.target.value)));
-document.querySelectorAll('[data-code-view]').forEach(button=>button.addEventListener('click',()=>{document.querySelector('.code-demo').dataset.view=button.dataset.codeView;document.querySelectorAll('[data-code-view]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)))}));
+if (document.querySelector('.architecture')) {
 const phases=[
  {nodes:['mobile'],edges:[],title:text('Autenticación en el móvil','Authenticate on the phone'),copy:text('El usuario se autentica localmente antes de utilizar la credencial.','The user authenticates locally before using the credential.')},
  {nodes:['mobile','reader'],edges:['ble'],title:text('La credencial llega al lector','The credential reaches the reader'),copy:text('La app envía la credencial mediante BLE. Android también incorpora NFC/HCE.','The app transmits the credential over BLE. Android also includes NFC/HCE.')},
@@ -69,6 +14,153 @@ function drawStep(){const p=phases[step];document.querySelectorAll('[data-system
 function stop(){clearInterval(timer);timer=null;play.textContent=step===phases.length-1?text('Repetir recorrido','Replay flow'):text('Reproducir recorrido','Play flow');play.setAttribute('aria-pressed','false')}
 play.addEventListener('click',()=>{if(timer){stop();return}if(step===phases.length-1)step=0;drawStep();play.textContent=text('Pausar recorrido','Pause flow');play.setAttribute('aria-pressed','true');timer=setInterval(()=>{if(step<phases.length-1){step++;drawStep()}if(step===phases.length-1)stop()},1800)});
 document.querySelector('#step-prev').addEventListener('click',()=>{stop();step=Math.max(0,step-1);drawStep()});document.querySelector('#step-next').addEventListener('click',()=>{stop();step=Math.min(phases.length-1,step+1);drawStep()});document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});drawStep();
+}
 document.querySelectorAll('[data-language]').forEach(a=>{const url=new URL(a.href);url.hash=location.hash;a.href=url.href;a.addEventListener('click',()=>{const target=new URL(a.href);target.hash=location.hash;a.href=target.href})});
 document.querySelectorAll('[data-cv]').forEach(a=>{const file='CV_Alejandro_Galan_'+(en?'EN':'ES')+'.pdf';a.href='./assets/'+file;if(a.hasAttribute('download'))a.download=file});
 document.querySelector('#current-year').textContent=new Date().getFullYear();
+
+const heroName = document.querySelector('.profile-name');
+if (heroName) {
+  const header = document.querySelector('.header-shell');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let animationFrame = 0;
+
+  function updateName() {
+    animationFrame = 0;
+    const name = heroName.getBoundingClientRect();
+    const distance = name.top + name.height * 0.5 - header.offsetHeight;
+    const progress = 1 - Math.min(1, Math.max(0, distance / (name.height * 0.87)));
+    header.classList.toggle('name-in-header', progress >= 0.62);
+    if (reducedMotion.matches) {
+      heroName.style.removeProperty('--name-scale');
+      heroName.style.removeProperty('--name-opacity');
+      return;
+    }
+    heroName.style.setProperty('--name-scale', String(1 - progress * 0.57));
+    heroName.style.setProperty('--name-opacity', String(1 - progress));
+  }
+
+  function queueNameUpdate() {
+    if (!animationFrame) animationFrame = requestAnimationFrame(updateName);
+  }
+
+  updateName();
+  window.addEventListener('scroll', queueNameUpdate, { passive: true });
+  window.addEventListener('resize', queueNameUpdate);
+  window.addEventListener('pageshow', queueNameUpdate);
+  reducedMotion.addEventListener('change', queueNameUpdate);
+}
+
+function drawExpandedExample(container) {
+  // Coordinates are tile centres in the 540 × 1090 expansion screenshot.
+  const columns = [
+    { x: 117, firstY: 425, tiles: ['wheat', 'wood', 'clay', 'sheep'] },
+    { x: 178, firstY: 389, tiles: ['stone', 'sheep', 'wheat', 'wood', 'clay'] },
+    { x: 239, firstY: 354, tiles: ['wheat', 'wood', 'clay', 'sheep', 'stone', 'wheat'] },
+    { x: 300, firstY: 389, tiles: ['clay', 'sheep', 'stone', 'wheat', 'desert', 'wood'] },
+    { x: 361, firstY: 425, tiles: ['wood', 'wheat', 'sheep', 'stone', 'desert'] },
+    { x: 422, firstY: 461, tiles: ['clay', 'wood', 'sheep', 'stone'] }
+  ];
+  const numbers = [
+    'six', 'ten', 'three', 'eight', 'five', 'eleven', 'two', 'nine', 'four', 'twelve',
+    'eight', 'four', 'eleven', 'six', 'nine', 'three', 'ten', 'five', 'twelve', 'two',
+    'four', 'eight', 'eleven', 'five', 'nine', 'six', 'ten', 'three'
+  ];
+  const assets = './assets/catan-tiles/';
+  let numberIndex = 0;
+  for (const { x, firstY, tiles } of columns) {
+    tiles.forEach((terrain, row) => {
+      if (terrain === 'desert') return;
+      const tile = document.createElement('span');
+      tile.className = 'extended-tile';
+      tile.style.left = `${x / 540 * 100}%`;
+      tile.style.top = `${(firstY + row * 71.3) / 1090 * 100}%`;
+      const artwork = new Image(400, 346);
+      artwork.alt = '';
+      artwork.src = assets + terrain + '.png';
+      const number = new Image(400, 346);
+      number.alt = '';
+      number.className = 'tile-number';
+      number.src = assets + numbers[numberIndex++] + '.png';
+      tile.append(artwork, number);
+      container.append(tile);
+    });
+  }
+}
+
+for (const demo of document.querySelectorAll('[data-board-demo]')) {
+  const phone = demo.querySelector('.board-phone');
+  const image = demo.querySelector('[data-board-image]');
+  const expandedTiles = demo.querySelector('.extended-tiles');
+  const status = demo.querySelector('[data-board-status]');
+  const rules = demo.querySelector('.board-rules');
+  const buttons = Object.fromEntries(
+    [...demo.querySelectorAll('[data-board-action]')].map(button => [button.dataset.boardAction, button])
+  );
+  const boards = {
+    empty: ['base', text('Tablero base sin terrenos', 'Empty base board')],
+    terrain: ['terrenos', text('Terrenos listos para revelar los números', 'Terrain ready for the numbers')],
+    numbered: ['tablero-oscuro', text('Tablero base con los números revelados', 'Base board with the numbers revealed')]
+  };
+  const expandedLabels = {
+    empty: text('Tablero ampliado sin terrenos', 'Empty expanded board'),
+    terrain: text('Tablero ampliado con terrenos', 'Expanded board with terrain'),
+    numbered: text('Tablero ampliado con los números revelados', 'Expanded board with the numbers revealed')
+  };
+  let expanded = false;
+  let phase = 'numbered';
+
+  function showBoard(next) {
+    phase = next;
+    const [asset, label] = expanded ? ['ampliado', expandedLabels[phase]] : boards[phase];
+    phone.dataset.size = expanded ? 'expanded' : 'base';
+    phone.dataset.phase = phase;
+    image.src = './assets/catan-' + asset + '.png';
+    image.alt = label;
+    status.textContent = label;
+    expandedTiles.hidden = !expanded || phase === 'empty';
+    if (!expandedTiles.hidden && !expandedTiles.childElementCount) drawExpandedExample(expandedTiles);
+    buttons.size.setAttribute('aria-pressed', String(expanded));
+    buttons.size.firstElementChild.src = expanded ? './assets/catan-group.svg' : './assets/catan-single.svg';
+    buttons.size.title = expanded ?
+      text('Cambiar a tablero base', 'Switch to base board') :
+      text('Cambiar a tablero ampliado', 'Switch to expanded board');
+    buttons.size.setAttribute('aria-label', buttons.size.title);
+    buttons.generate.title = phase === 'terrain' ?
+      text('Reiniciar tablero', 'Reset board') : text('Generar terrenos', 'Generate terrain');
+    buttons.generate.setAttribute('aria-label', buttons.generate.title);
+    buttons.generate.firstElementChild.textContent = phase === 'terrain' ? '↶' : '⟳';
+    buttons.numbers.hidden = phase !== 'terrain';
+  }
+
+  function showRules(open) {
+    rules.hidden = !open;
+    buttons.settings.setAttribute('aria-expanded', String(open));
+    (open ? buttons.close : buttons.settings).focus();
+  }
+
+  for (const button of [buttons.theme, buttons.settings, buttons.close]) {
+    button.title = button.getAttribute('aria-label');
+  }
+  showBoard('numbered');
+
+  buttons.theme.addEventListener('click', () => {
+    const light = phone.classList.toggle('theme-light');
+    buttons.theme.setAttribute('aria-pressed', String(light));
+    buttons.theme.firstElementChild.textContent = light ? '☾' : '☀';
+  });
+  buttons.size.addEventListener('click', () => {
+    expanded = !expanded;
+    showBoard('empty');
+  });
+  buttons.generate.addEventListener('click', () => showBoard(phase === 'terrain' ? 'empty' : 'terrain'));
+  buttons.numbers.addEventListener('click', () => {
+    showBoard('numbered');
+    buttons.generate.focus();
+  });
+  buttons.settings.addEventListener('click', () => showRules(rules.hidden));
+  buttons.close.addEventListener('click', () => showRules(false));
+  demo.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !rules.hidden) showRules(false);
+  });
+}

@@ -1,5 +1,10 @@
 import {readFile,writeFile} from 'node:fs/promises';
 const translations={
+  "El móvil se acerca al lector y la puerta se abre": "The phone approaches the reader and the door opens",
+  "¡Hola! Te enseño lo que hago.": "Hi! Let me show you what I’ve been building.",
+  "Preparar una partida de Catán, abrir una puerta con el móvil o quitar tareas repetitivas del trabajo. Son cosas distintas, pero todas me han dado una excusa para crear software que haga algo un poco más fácil.": "Setting up a game of Catan, unlocking a door with a phone or cutting out repetitive tasks at work. Different things, but each gave me a reason to build software that makes something a little easier.",
+  "Lo mío es el desarrollo móvil, aunque ahora también creo herramientas internas en Embention. Por aquí puedes probar algunas demos y ver qué hay detrás de cada proyecto.": "Mobile development is my thing, and these days I also build internal tools at Embention. Have a look around, try a few demos and see how each project came together.",
+  "Estudié Informática y el Máster en Desarrollo de Software para Dispositivos Móviles en la Universidad de Alicante, donde recibí el premio extraordinario del máster.": "I studied Computer Engineering and Mobile Software Development at the University of Alicante, where I received the Extraordinary Master’s Degree Award.",
   "Saltar al contenido": "Skip to content",
   "Proyectos": "Projects",
   "Sobre mí": "About",
@@ -127,11 +132,192 @@ const translations={
 };
 Object.assign(translations,{"Conóceme":"About me","Ver CV":"View CV","Descargar CV":"Download CV","Seleccionar plugin":"Choose a plugin","Comparar código":"Compare code","Sin plugin":"Without plugin","Con plugin":"With plugin","Arquitectura del acceso en vista móvil":"Mobile view of the access architecture","Credencial por BLE / NFC en Android":"Credential over BLE / NFC on Android","Solicitud de acceso":"Access request","Orden de apertura":"Opening command","Servidor, base de datos y web":"Server, database and web panel","La controladora sincroniza registros y permisos con el servidor, por separado del recorrido de apertura.":"The controller synchronises records and permissions with the server, separately from the opening flow.","BLE en ambas plataformas; NFC/HCE en Android. Código del lector y comunicación controladora–lector: aportación de otros miembros del equipo.":"BLE on both platforms; NFC/HCE on Android. Reader code and controller–reader communication: contribution by other team members.","Anterior":"Previous","Siguiente":"Next","▥":"▥"});
 const identity=new Set(["Alejandro Galán — Software & Mobile","ag","↗","Alejandro Galán","EN","ES","SOFTWARE ENGINEER · MOBILE & TOOLS","PORTFOLIO / 01","↓","_","think.","build.","simplify.","Kotlin & Android","Swift & iOS","Backend","Developer tools","01 / DEVELOPER TOOLS","2024","ModuleDroid","Navigator","Configurator","Restorer","Kotlin / Android","ModuleDroid ↗","↳","%","Kotlin","Android SDK","Microkernel","JUnit4 · Espresso","+","02 / MOBILE & CONNECTED SYSTEMS","2025","→","BLE / NFC*","⌘","{ }","≡","MySQL","▯","Android / iOS",")))","⊞","01 / 06","←","100","Compose","SwiftUI","BLE · NFC","Laravel","alexgalanp@gmail.com","Alejandro Galán Pérez ·","2026","GitHub ↗","LinkedIn ↗"]);
-const spanish=await readFile(new URL('../src/es.html',import.meta.url),'utf8');let missing=[];
-let english=spanish.replace(/>([^<>]+)</g,(full,raw)=>{const key=raw.trim();if(!key)return full;if(translations[key]!==undefined)return '>'+raw.replace(key,translations[key])+'<';if(!identity.has(key))missing.push(key);return full});
-english=english.replace(/(aria-label|content)="([^"]*)"/g,(full,attr,value)=>translations[value]!==undefined?attr+'="'+translations[value]+'"':full);
-english=english.replace('<html lang="es">','<html lang="en">').replace('data-language="es" aria-current="page"','data-language="es"').replace('data-language="en"','data-language="en" aria-current="page"');
-english=english.replace('href="./assets/CV_Alejandro_Galan_ES.pdf" target="_blank" rel="noopener">View CV','href="./assets/CV_Alejandro_Galan_EN.pdf" target="_blank" rel="noopener">View CV');
-english=english.replaceAll('href="./assets/CV_Alejandro_Galan_ES.pdf" download="CV_Alejandro_Galan_ES.pdf"','href="./assets/CV_Alejandro_Galan_EN.pdf" download="CV_Alejandro_Galan_EN.pdf"').replace('href="./assets/CV_Alejandro_Galan_ES.pdf" target="_blank" rel="noopener">View CV<','href="./assets/CV_Alejandro_Galan_EN.pdf" target="_blank" rel="noopener">View CV<');
-if(missing.length)throw new Error('Missing translations: '+missing.join(' | '));
-await writeFile(new URL('../src/index.html',import.meta.url),english);console.log('EN/ES content generated and checked.');
+Object.assign(translations, {
+  "Contacto": "Contact",
+  "Ingeniero de software · Desarrollo móvil": "Software engineer · Mobile development",
+  "Desarrollo aplicaciones móviles y, en Embention, herramientas internas que simplifican el trabajo de otros ingenieros. Me gusta cuidar cómo se usa el software y cómo se mantiene.": "I build mobile apps and develop internal tools at Embention to make other engineers’ work easier. I care about how software feels to use and how easy it is to maintain.",
+  "Me formé en la Universidad de Alicante, donde cursé el Grado en Ingeniería Informática y el Máster en Desarrollo de Software para Dispositivos Móviles, con premio extraordinario en el máster.": "I studied at the University of Alicante, where I earned a degree in Computer Engineering and a master’s in Mobile Software Development, receiving the programme’s Extraordinary Master’s Degree Award.",
+  "Aplicación Android · Kotlin": "Android app · Kotlin",
+  "Generador de mapas de Catán": "Catan Map Generator",
+  "Una app para preparar el tablero antes de jugar. Elige el tamaño, ajusta las reglas y genera una distribución de terrenos y números.": "An app for setting up the board before a game. Pick a board size, adjust the rules and generate a layout of terrain and number tokens.",
+  "Vistas de la app": "App screens",
+  "Tablero": "Board",
+  "Ajustes": "Settings",
+  "Tema claro": "Light theme",
+  "Cómo está hecha": "How I built it",
+  "Dibujé el tablero hexagonal con Canvas y creé un generador que busca distribuciones según las reglas elegidas. La app reutiliza dos plugins de ModuleDroid para los ajustes y la restauración del tablero.": "I drew the hexagonal board with Canvas and built a generator that searches for layouts that match the selected rules. The app reuses two ModuleDroid plugins for settings and board restoration.",
+  "Tablero generado con terrenos y fichas numéricas en el tema oscuro": "Generated board with terrain and number tokens in dark mode",
+  "Tablero base con los números revelados.": "Base board with the numbers revealed.",
+  "Panel con las opciones que controlan la generación del tablero": "Settings panel with options for board generation",
+  "Reglas de generación en el panel inferior.": "Generation rules in the bottom sheet.",
+  "Tablero antes de generar los terrenos, en el tema claro": "Board before generating terrain, in light mode",
+  "Tablero antes de la generación, en modo claro.": "Board before generation, in light mode.",
+  "Librería Android · Kotlin": "Android library · Kotlin",
+  "Control de accesos": "Mobile access control",
+  "Android e iOS": "Android and iOS",
+  "El reto": "The challenge",
+  "Mi aportación": "My contribution",
+  "En la prueba de concepto": "In the proof of concept",
+  "Dos plataformas nativas": "Two native platforms",
+  "Validación del sistema": "System validation",
+  "Explorar en GitHub": "View on GitHub",
+  "Ver API del plugin": "View plugin API",
+  "Volver arriba": "Back to top"
+});
+["Alejandro","Galán Pérez","GitHub","LinkedIn"].forEach(key => identity.add(key));
+Object.assign(translations, {
+  "Inicio": "Home",
+  "Tema claro del portafolio": "Portfolio light theme",
+  "Experiencia": "Experience",
+  "Ingeniero de software · Herramientas internas": "Internal Tools Software Engineer",
+  "Desarrollo herramientas en Python para preparar datos y automatizar tareas de ingeniería. También creo extensiones de VS Code para consultar y revisar información.": "I build Python tools to prepare data and automate engineering tasks. I also develop VS Code extensions for finding and reviewing information.",
+  "Abr. 2026 – actualidad": "Apr 2026 – Present",
+  "Ingeniero de requisitos": "Requirements Engineer",
+  "Ago. 2025 – mar. 2026": "Aug 2025 – Mar 2026",
+  "Definí y mantuve requisitos de software para autopilotos de drones. Trabajé con desarrollo y QA para que los requisitos fueran trazables y verificables.": "I defined and maintained software requirements for drone autopilots. I worked with development and QA to make sure requirements were traceable and could be verified.",
+  "Prácticas de ingeniería de I+D": "R&D engineering internship",
+  "Desarrollé las apps Android e iOS y el backend de un sistema que permite abrir puertas con el móvil.": "I developed the Android and iOS apps and backend for a system that lets people unlock doors with their phones.",
+  "Nov. 2024 – jul. 2025": "Nov 2024 – Jul 2025",
+  "Prácticas de desarrollo de software": "Software development internship",
+  "Desarrollé software en C++ para monitorizar sensores y alarmas. Automaticé las pruebas de detección de señales y activación de alarmas.": "I developed C++ software for monitoring sensors and alarms. I automated tests for signal detection and alarm activation.",
+  "Oct. 2022 – jul. 2023": "Oct 2022 – Jul 2023",
+  "Ver proyecto": "View project",
+  "Todos los proyectos": "All projects",
+  "Una app para preparar tu próxima partida de Catán. Elige el tamaño del tablero, ajusta las reglas y descubre los números cuando los terrenos estén colocados.": "An app for setting up your next game of Catan. Pick a board size, adjust the rules and reveal the numbers once the tiles are in place.",
+  "Cambiar tema": "Switch theme",
+  "Cambiar a tablero ampliado": "Switch to expanded board",
+  "Generar terrenos": "Generate terrain",
+  "Mostrar números": "Show numbers",
+  "Ver reglas de generación": "Show generation rules",
+  "Cerrar reglas": "Close rules",
+  "Reglas de generación": "Generation rules",
+  "Ajustes de la app": "App settings",
+  "Terrenos": "Terrain rules",
+  "Separar terrenos iguales": "Keep matching terrain tiles apart",
+  "Evita que dos terrenos del mismo tipo queden juntos, por ejemplo, dos bosques.": "Keep tiles of the same type apart, such as two forests.",
+  "Separar terrenos y puertos del mismo recurso": "Keep terrain away from matching ports",
+  "Evita, por ejemplo, que un bosque toque un puerto de madera.": "For example, keep a forest from bordering a wood port.",
+  "Fichas numéricas": "Number rules",
+  "Separar fichas con la misma probabilidad": "Keep numbers with equal odds apart",
+  "Evita que dos terrenos vecinos tengan números con la misma probabilidad de salir en los dados.": "Keep neighbouring tiles from getting numbers with the same odds on the dice.",
+  "Evitar el 2 y el 12 en piedra y arcilla": "Keep 2 and 12 off ore and clay tiles",
+  "Excluye los números menos probables de las casillas de piedra y arcilla.": "Exclude the least likely numbers from ore and clay tiles.",
+  "No repetir probabilidades dentro de un recurso": "Avoid repeated odds within a resource",
+  "Evita, por ejemplo, que dos bosques tengan la misma probabilidad de producir.": "For example, keep two forests from having the same chance of producing wood.",
+  "Equilibrar las probabilidades entre recursos": "Balance the odds across resources",
+  "Busca que la probabilidad media de producir sea parecida para madera, trigo, ovejas, piedra y arcilla.": "Aim for similar average production odds across wood, wheat, sheep, ore and clay.",
+  "Tablero base con los números revelados": "Base board with the numbers revealed",
+  "Demo visual con tableros de ejemplo.": "Visual demo with sample boards.",
+  "Una librería que resuelve tareas comunes de Android, como cambiar de pantalla o guardar preferencias, para que cada app tenga que escribir menos código.": "An Android library that handles common tasks, like moving between screens and saving preferences, so each app needs less code of its own.",
+  "Reducción de caracteres de código de 3.026 a 555 en una pantalla de ajustes": "Code went from 3,026 characters to 555 on one settings screen",
+  "Código para una pantalla de ajustes": "Code for one settings screen",
+  "Sin la librería": "Without the library",
+  "Con ModuleDroid": "With ModuleDroid",
+  "3.026": "3,026",
+  "Caracteres de código, excluido el XML. Un caso de prueba.": "Code characters, excluding XML. One test case.",
+  "Desarrollé apps para abrir puertas desde Android e iOS y una web para gestionar quién tiene acceso.": "I built Android and iOS apps for unlocking doors, plus a web app for managing access.",
+  "Un móvil junto a un lector de acceso en la entrada de una oficina": "A phone held near an access reader at an office door",
+  "Ilustración del uso": "Illustration",
+  "Creé una app que agiliza la preparación del tablero y permite decidir cómo repartir terrenos y números antes de empezar la partida.": "I built an app that speeds up board setup and lets players decide how to distribute terrain and numbers before the game begins.",
+  "Preparar una partida": "Setting up a game",
+  "El generador admite el tablero base de 19 terrenos y el ampliado de 30. Los ajustes permiten, por ejemplo, separar terrenos iguales o evitar que dos casillas vecinas tengan números con la misma probabilidad de salir.": "The generator supports the 19-tile base board and a 30-tile expansion. For example, players can keep matching terrain tiles apart or prevent neighbouring tiles from getting numbers with the same odds.",
+  "En la app puedes generar los terrenos y revelar después las fichas numéricas. Así se puede preparar el mapa físico por pasos.": "Players can generate the terrain and reveal the numbers afterwards, so they can set up the physical board in stages.",
+  "Cómo lo construí": "How I built it",
+  "Construí la app para Android con Kotlin, dibujé la cuadrícula con Canvas y creé un generador que busca distribuciones según las reglas elegidas. Reutilicé dos plugins de ModuleDroid para los ajustes y para restaurar el tablero al recrear la pantalla.": "I built the Android app in Kotlin, drew the grid with Canvas and wrote a generator that searches for layouts that match the chosen rules. I reused two ModuleDroid plugins for settings and for restoring the board when the screen is recreated.",
+  "Ver ModuleDroid": "View ModuleDroid",
+  "Diseñé una librería modular que reúne tres tareas habituales de Android: navegar entre pantallas, guardar preferencias y recuperar el estado de una pantalla.": "I designed a modular library for three routine Android tasks: moving between screens, saving preferences and restoring screen state.",
+  "Desarrollé apps nativas, backend y una web de gestión para un sistema de apertura de puertas con el móvil, durante mis prácticas de I+D en la Universidad de Alicante.": "During my R&D internship at the University of Alicante, I built native apps, a backend and a web admin panel for a system that lets people unlock doors with their phones."
+});
+for (const token of ['Alejandro Galán Pérez', 'Embention', 'SEDNI', 'CATAN', '☀', '☾', '⟳', '⚙', '×', '555']) {
+  identity.add(token);
+}
+
+Object.assign(translations,{"Mi experiencia en detalle": "My experience in detail", "Ver control de accesos": "View mobile access control", "Prueba los controles del móvil.": "Try the controls on the phone.", "Volver al inicio": "Back to home", "Mi trayectoria": "My career", "Qué he construido, cómo he trabajado y qué conecta cada etapa.": "What I have built, how I have worked and how each role connects.", "Puestos de trabajo": "Roles", "Siguiente proyecto": "Next project", "Embention · Herramientas": "Embention · Tools", "Embention · Requisitos": "Embention · Requirements", "Universidad de Alicante · I+D": "University of Alicante · R&D", "SEDNI · C++": "SEDNI · C++", "Requisitos": "Requirements", "Trazabilidad": "Traceability", "ALM": "ALM", "UML": "UML", "Python": "Python", "PySide6": "PySide6", "VS Code": "VS Code", "Git · CI/CD": "Git · CI/CD", "Kotlin · Compose": "Kotlin · Compose", "Swift · SwiftUI": "Swift · SwiftUI", "Laravel · REST": "Laravel · REST", "C++": "C++", "GTK": "GTK", "XML": "XML", "Git · Jira": "Git · Jira", "Herramientas que simplifican el trabajo de ingeniería.": "Tools that make engineering work simpler.", "Convertir necesidades en requisitos que se puedan verificar.": "Turning needs into verifiable requirements.", "Del teléfono a una puerta real.": "From a phone to a physical door.", "Software conectado a sensores y alarmas.": "Software connected to sensors and alarms.", "Desarrollo y mantengo aplicaciones internas para preparar datos, automatizar documentación y reducir tareas repetitivas. Trabajo principalmente con Python y creo interfaces con PySide6.": "I develop and maintain internal applications for preparing data, automating documentation and reducing repetitive tasks. I work mainly with Python and build interfaces with PySide6.", "También desarrollo extensiones de VS Code para consultar y revisar información de ingeniería, y herramientas para analizar código y trabajar con conjuntos de datos.": "I also develop VS Code extensions for finding and reviewing engineering information, alongside tools for analysing code and working with datasets.", "Participo en decisiones técnicas y en el mantenimiento de los flujos de desarrollo con Git, GitHub y CI/CD.": "I contribute to technical decisions and maintain development workflows with Git, GitHub and CI/CD.", "Analicé, definí y mantuve requisitos de software de alto y bajo nivel para autopilotos de drones y operaciones de vuelo autónomo.": "I analysed, defined and maintained high- and low-level software requirements for drone autopilots and autonomous flight operations.", "Trabajé en su trazabilidad, consistencia y verificabilidad, colaborando con desarrollo y QA para conectar las especificaciones con los criterios de verificación.": "I worked on traceability, consistency and verifiability, collaborating with development and QA to connect specifications with verification criteria.", "Colaboré en la estandarización de las especificaciones y de sus criterios de verificación.": "I helped standardise specifications and their verification criteria.", "Desarrollé las apps nativas de Android e iOS, el backend y la web de gestión de un sistema distribuido de control de accesos. Es el mismo proyecto que desarrollé en mi trabajo de fin de máster.": "I built the native Android and iOS apps, backend and web admin panel for a distributed access control system. This is the same project I developed for my master’s thesis.", "Las apps se comunican con lectores físicos mediante BLE; Android incorpora también NFC/HCE. El backend centraliza usuarios, permisos y registros mediante APIs REST y una base de datos relacional.": "The apps communicate with physical readers over BLE; Android also includes NFC/HCE. The backend centralises users, permissions and records through REST APIs and a relational database.", "Implementé el software salvo el código del lector y la comunicación entre controladora y lector, realizados por otros miembros del equipo. La validación incluyó lectores físicos y más de cien usuarios activos.": "I implemented the software except for the reader code and controller–reader communication, which other team members developed. Validation included physical readers and more than one hundred active users.", "Desarrollé y mantuve software para monitorizar en tiempo real sensores y alarmas en entornos industriales y marítimos.": "I developed and maintained software for real-time monitoring of sensors and alarms in industrial and maritime environments.", "Trabajé con C++ y GTK, y con XML para representar, configurar e integrar información en la aplicación.": "I worked with C++ and GTK, and used XML to represent, configure and integrate information in the application.", "Automaticé pruebas para comprobar la detección de señales y la activación de alarmas, y colaboré con el equipo en la depuración del software.": "I automated tests for signal detection and alarm activation, and worked with the team on debugging."});
+
+Object.assign(translations,{
+  "Accesos": "Access control",
+  "Email": "Email",
+  "Escríbeme": "Send me an email",
+  "Código y proyectos": "Code and projects",
+  "Perfil profesional": "Professional profile",
+  "Tres piezas para tu app": "Three pieces for your app",
+  "Cambiar de pantalla": "Move between screens",
+  "Guardar preferencias": "Save preferences",
+  "Recuperar el estado": "Restore screen state",
+  "Navegación, ajustes y estado, sin reconstruir la misma infraestructura.": "Navigation, settings and state, without rebuilding the same infrastructure.",
+  "Un ejemplo concreto": "One concrete example",
+  "Repetir animación": "Replay animation",
+  "Móvil acercándose a un lector de acceso": "A phone approaching an access reader",
+  "Acceso autorizado": "Access granted",
+  "Credencial móvil": "Mobile credential",
+  "Acerca el móvil": "Bring your phone close",
+  "Lectura por proximidad": "Proximity reader",
+  "Ilustración animada del uso": "Animated illustration",
+  "Tres plugins, uno detrás de otro": "Three plugins, one after another",
+  "Puedes recorrer todos los ejemplos sin cambiar de pestaña.": "Browse all the examples without switching tabs.",
+  "Con Configurator": "With Configurator",
+  "Con Restorer": "With Restorer",
+  "Un poco más de ingeniería": "More engineering detail",
+  "Recibir el resultado de otra pantalla.": "Receive a result from another screen.",
+  "Registrar el launcher, lanzar el Intent y extraer el resultado.": "Register the launcher, launch the Intent and extract the result.",
+  "Abrir la pantalla y definir qué hacer al volver.": "Open the screen and define what happens on return.",
+  "El ejemplo muestra el lado que recibe el resultado; se omite la pantalla de edición en ambos casos. Navigator encapsula la mecánica de navegación y retorno en una llamada encadenada.": "This example shows the caller; the editing screen is omitted in both versions. Navigator encapsulates navigation and result handling in a chained call.",
+  "Guardar y leer una preferencia.": "Save and read a preference.",
+  "Acceder al almacén y gestionar su editor.": "Access the preference store and manage its editor.",
+  "Leer y escribir desde una fachada tipada.": "Read and write through a typed facade.",
+  "Encapsula SharedPreferences y su editor. El plugin también permite suscribirse a cambios y generar una pantalla de configuración.": "Encapsulates SharedPreferences and its editor. The plugin also supports change subscriptions and a generated settings screen.",
+  "Conservar un contador al rotar la pantalla.": "Keep a counter when the screen rotates.",
+  "Guardar y recuperar el campo en los callbacks.": "Save and retrieve the field in lifecycle callbacks.",
+  "Declarar qué campo debe conservar su valor.": "Declare which field should keep its value.",
+  "El plugin conecta el guardado y la restauración al ciclo de vida mediante anotaciones. Este ejemplo se limita a recreaciones como la rotación; no demuestra equivalencia con Bundle tras la muerte del proceso.": "The plugin connects saving and restoration to the lifecycle through annotations. This example is limited to recreation such as rotation; it does not establish equivalence with Bundle after process death."
+});
+identity.add('Catán');
+
+const filenames = new Map([
+  ['es', 'index'],
+  ['catan-es', 'catan'],
+  ['moduledroid-es', 'moduledroid'],
+  ['accesos-es', 'accesos'],
+  ['experiencia-es', 'experiencia']
+]);
+
+for (const [spanishName, englishName] of filenames) {
+  let spanish = await readFile(new URL(`../src/${spanishName}.html`, import.meta.url), 'utf8');
+  if (spanish.includes('<!-- CATAN_DEMO -->')) {
+    const demo = await readFile(new URL('../src/partials/catan-demo.html', import.meta.url), 'utf8');
+    spanish = spanish.replace('<!-- CATAN_DEMO -->', demo);
+  }
+  if (spanish.includes('<!-- ACCESS_SCENE -->')) {
+    spanish = spanish.replace('<!-- ACCESS_SCENE -->', await readFile(new URL('../src/partials/access-scene.html',import.meta.url),'utf8'));
+  }
+  // Kotlin snippets are source code; translate the surrounding explanations only.
+  const codeBlocks = [];
+  spanish = spanish.replace(/<pre>[\s\S]*?<\/pre>/g, block => {
+    const index = codeBlocks.push(block) - 1;
+    return `<pre data-code-slot="${index}"></pre>`;
+  });
+  const missing = new Set();
+  let english = spanish.replace(/>([^<>]+)</g, (full, raw) => {
+    const key = raw.trim();
+    if (!key) return full;
+    if (Object.hasOwn(translations, key)) return '>' + raw.replace(key, translations[key]) + '<';
+    if (!identity.has(key)) missing.add(key);
+    return full;
+  });
+  if (missing.size) throw new Error(`${spanishName}: missing translations: ${[...missing].join(' | ')}`);
+
+  english = english
+    .replace(/(aria-label|alt|content|title)="([^"]*)"/g, (full, attr, value) =>
+      Object.hasOwn(translations, value) ? `${attr}="${translations[value]}"` : full)
+    .replace(/<a\b[^>]*>/g, anchor => anchor.includes('hreflang=') ? anchor :
+      anchor.replace(/href="\.\/([a-z-]+)\.html(?=["#])/g, (full, slug) =>
+        filenames.has(slug) ? `href="./${filenames.get(slug)}.html` : full))
+    .replace('<html lang="es">', '<html lang="en">')
+    .replace('data-language="es" aria-current="page"', 'data-language="es"')
+    .replace('data-language="en"', 'data-language="en" aria-current="page"')
+    .replaceAll('CV_Alejandro_Galan_ES.pdf', 'CV_Alejandro_Galan_EN.pdf');
+
+  english = english.replace(/<pre data-code-slot="(\d+)"><\/pre>/g, (_, index) => codeBlocks[Number(index)]);
+  await writeFile(new URL(`../src/${englishName}.html`, import.meta.url), english);
+}
+console.log('Five pages generated in English and Spanish.');

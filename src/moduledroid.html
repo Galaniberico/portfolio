@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head><link rel="alternate" hreflang="en" href="./moduledroid.html"><link rel="alternate" hreflang="es" href="./moduledroid-es.html"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#22383c"><meta name="description" content="Alejandro Galán Pérez. Software engineer building mobile apps, developer tools and connected systems."><title>ModuleDroid</title><link rel="icon" href="./assets/favicon.svg" type="image/svg+xml"><script src="./theme.js"></script><link rel="stylesheet" href="./styles.css"><script src="./app.js" defer></script><script src="./interactions.js" defer></script><link rel="stylesheet" href="./refinements.css"></head>
+<body id="inicio"><a class="skip" href="#main">Skip to content</a>
+<header class="header-shell">
+  <div class="header wrap">
+    <a class="brand" href="./index.html">Alejandro Galán Pérez</a>
+    <nav aria-label="Main navigation" class="main-nav">
+      <a class="nav-experience" data-nav-section="experiencia" href="./experiencia.html">Experience</a>
+      <a data-nav-section="catan" href="./catan.html">Catán</a>
+      <a data-nav-section="accesos" href="./accesos.html">Access control</a>
+      <a data-nav-section="moduledroid" aria-current="page" href="./moduledroid.html">ModuleDroid</a>
+      <a data-nav-section="contacto" class="nav-contact" href="./index.html#contacto">Contact</a>
+      <div class="header-tools">
+        <button class="site-theme-toggle" type="button" data-site-theme-toggle aria-label="Portfolio light theme" title="Portfolio light theme" aria-pressed="false" hidden>
+          <span class="site-theme-sun" aria-hidden="true">☀</span>
+          <span class="site-theme-moon" aria-hidden="true">☾</span>
+        </button>
+        <div class="language-switch" role="group" aria-label="Language">
+          <a href="./moduledroid.html" lang="en" hreflang="en" data-language="en" aria-current="page">EN</a>
+          <a href="./moduledroid-es.html" lang="es" hreflang="es" data-language="es">ES</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+  <main class="wrap project-page" id="main">
+    <a class="back-link" href="./index.html#moduledroid">All projects</a>
+    <div class="project-page-title">
+      <h1>ModuleDroid</h1>
+      <p>I designed a modular library for three routine Android tasks: moving between screens, saving preferences and restoring screen state.</p>
+    </div>
+<section class="plugin-overview"><h2>Three plugins, one after another</h2><p>Browse all the examples without switching tabs.</p><nav class="plugin-index" aria-label="ModuleDroid plugins"><a class="button" href="#navigator">Navigator</a><a class="button" href="#configurator">Configurator</a><a class="button" href="#restorer">Restorer</a></nav></section>
+<p class="sample-note">Simplified usage snippets. Imports, the Activity class and framework initialisation are omitted.</p>
+<div class="plugin-sections"><section class="code-demo plugin-section" data-plugin="navigator" id="navigator">
+   <header class="code-demo-heading"><div><p class="plugin-name">Navigator</p><h2>Receive a result from another screen.</h2></div></header>
+   <div class="code-comparison">
+    <section class="code-pane code-before" aria-label="Code without the plugin"><div class="code-pane-bar"><span>Without the plugin</span><span>Kotlin / Android</span></div><pre><code>private val editor = registerForActivityResult(
+    ActivityResultContracts.StartActivityForResult()
+) { result -&gt;
+    if (result.resultCode == RESULT_OK) {
+        val name = result.data?.getStringExtra(&quot;name&quot;)
+        if (name != null) showName(name)
+    }
+}
+
+fun openEditor() {
+    editor.launch(Intent(this, EditActivity::class.java))
+}</code></pre><p>Register the launcher, launch the Intent and extract the result.</p></section>
+    <section class="code-pane code-after" aria-label="Code with the plugin"><div class="code-pane-bar"><span>With Navigator</span><span>ModuleDroid</span></div><pre><code><span class="token-keyword">Navigate</span>.toReturn(EditActivity::class).andThen {
+    <span class="token-keyword">val</span> name = <span class="token-keyword">Navigate</span>.getResult&lt;<span class="token-keyword">String</span>&gt;(<span class="token-keyword">&quot;name&quot;</span>)
+    if (name != null) showName(name)
+}</code></pre><p>Open the screen and define what happens on return.</p></section>
+   </div><p class="code-explanation">This example shows the caller; the editing screen is omitted in both versions. Navigator encapsulates navigation and result handling in a chained call.</p><a class="code-source" href="https://github.com/agp221-ua/Navigator" target="_blank" rel="noopener">View plugin API</a>
+  </section>
+<section class="code-demo plugin-section" data-plugin="configurator" id="configurator">
+   <header class="code-demo-heading"><div><p class="plugin-name">Configurator</p><h2>Save and read a preference.</h2></div></header>
+   <div class="code-comparison">
+    <section class="code-pane code-before" aria-label="Code without the plugin"><div class="code-pane-bar"><span>Without the plugin</span><span>Kotlin / Android</span></div><pre><code>val preferences = getSharedPreferences(
+    &quot;settings&quot;, Context.MODE_PRIVATE
+)
+preferences.edit()
+    .putBoolean(&quot;notifications&quot;, true)
+    .apply()
+
+val enabled = preferences.getBoolean(
+    &quot;notifications&quot;, false
+)</code></pre><p>Access the preference store and manage its editor.</p></section>
+    <section class="code-pane code-after" aria-label="Code with the plugin"><div class="code-pane-bar"><span>With Configurator</span><span>ModuleDroid</span></div><pre><code><span class="token-keyword">Configurator</span>.set(<span class="token-keyword">&quot;notifications&quot;</span>, <span class="token-keyword">true</span>)
+
+<span class="token-keyword">val</span> enabled = <span class="token-keyword">Configurator</span>.get(
+    <span class="token-keyword">&quot;notifications&quot;</span>, <span class="token-keyword">false</span>
+)</code></pre><p>Read and write through a typed facade.</p></section>
+   </div><p class="code-explanation">Encapsulates SharedPreferences and its editor. The plugin also supports change subscriptions and a generated settings screen.</p><a class="code-source" href="https://github.com/agp221-ua/Configurator" target="_blank" rel="noopener">View plugin API</a>
+  </section>
+<section class="code-demo plugin-section" data-plugin="restorer" id="restorer">
+   <header class="code-demo-heading"><div><p class="plugin-name">Restorer</p><h2>Keep a counter when the screen rotates.</h2></div></header>
+   <div class="code-comparison">
+    <section class="code-pane code-before" aria-label="Code without the plugin"><div class="code-pane-bar"><span>Without the plugin</span><span>Kotlin / Android</span></div><pre><code>var count = 0
+
+override fun onCreate(state: Bundle?) {
+    super.onCreate(state)
+    count = state?.getInt(&quot;count&quot;) ?: 0
+}
+
+override fun onSaveInstanceState(out: Bundle) {
+    out.putInt(&quot;count&quot;, count)
+    super.onSaveInstanceState(out)
+}</code></pre><p>Save and retrieve the field in lifecycle callbacks.</p></section>
+    <section class="code-pane code-after" aria-label="Code with the plugin"><div class="code-pane-bar"><span>With Restorer</span><span>ModuleDroid</span></div><pre><code><span class="token-keyword">@Restore</span>
+<span class="token-keyword">var</span> count = 0</code></pre><p>Declare which field should keep its value.</p></section>
+   </div><p class="code-explanation">The plugin connects saving and restoration to the lifecycle through annotations. This example is limited to recreation such as rotation; it does not establish equivalence with Bundle after process death.</p><a class="code-source" href="https://github.com/agp221-ua/Restorer" target="_blank" rel="noopener">View plugin API</a>
+  </section></div><div class="case-grid"><div><h4 class="case-title">The challenge</h4><p>Navigation, preferences and Activity recreation often scatter supporting code throughout an app. The goal: encapsulate it and make it reusable.</p></div><div><h4 class="case-title">My contribution</h4><p>I designed and implemented the microkernel, its facades and all three plugins, including lifecycle management and a sample app to compare the development approaches.</p></div><div class="evidence"><h4 class="case-title">In the proof of concept</h4><strong>−81.7<span>%</span></strong><p>Code characters in the settings screen: from 3,026 to 555, excluding XML.</p><details><summary>How it was measured</summary><p>A birthday planner I implemented with conventional Android and with ModuleDroid. This is a single case, potentially affected by learning between versions. It does not measure lines of code, runtime performance or a general productivity gain.</p></details></div></div><div class="project-footer"><div class="tags"><span>Kotlin</span><span>Android SDK</span><span>Microkernel</span><span>JUnit4 · Espresso</span></div><a class="project-link" href="https://github.com/agp221-ua/ModuleDroid" target="_blank" rel="noopener">View on GitHub</a></div><section class="technical"><h2>More engineering detail</h2><div class="technical-grid"><p><b>Extensible architecture.</b> A core, facades and a data bus separate responsibilities and support plugins. Initialisation uses manifest metadata.</p><p><b>Android integration.</b> Application and ActivityLifecycleCallbacks connect plugins to the app lifecycle.</p><p><b>Validation.</b> Over one hundred instrumented tests reported in the project documentation. Distribution designed around JitPack.</p></div></details>
+  <nav class="project-navigation" aria-label="Projects"><a class="button" href="./index.html#proyectos">All projects</a><a class="next-project" href="./catan.html"><span>Next project</span><strong>Catan Map Generator</strong></a></nav></main><footer class="footer wrap"><span>Alejandro Galán Pérez · <span id="current-year">2026</span></span><a href="#inicio">Back to top</a></footer>
+</body></html>
+
